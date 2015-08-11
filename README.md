@@ -30,4 +30,4 @@ Then call mvn deploy:deploy-file to actually deploy the jar to `repo` folder:
     mvn deploy:deploy-file -Durl=file:///C:\Users\username\Dropbox\heroku-examples\appfolder\repo -Dfile=json-taglib-0.4.1.jar -DgroupId=atg.taglib.json -DartifactId=json-taglib -Dpackaging=jar -Dversion=0.4.1
 
 You are ready to add this dependancy to your main pom file as any other.
-more info here: [https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html](https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html)
+more info here: [https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html](https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html), [https://devcenter.heroku.com/articles/local-maven-dependencies](https://devcenter.heroku.com/articles/local-maven-dependencies)
