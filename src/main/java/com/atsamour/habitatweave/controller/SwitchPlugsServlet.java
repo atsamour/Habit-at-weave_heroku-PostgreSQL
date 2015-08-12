@@ -68,7 +68,7 @@ public class SwitchPlugsServlet extends HttpServlet {
             RoomDAO roomDAO = new RoomDAO(hiberSession);
             final List<Room> rooms = roomDAO.getRoomsByUserId( Integer.parseInt(getCurrentUserId()) );
            
-            Query query = hiberSession.createSQLQuery("select `path` from options "
+            Query query = hiberSession.createSQLQuery("select path from options "
                     + "WHERE options.user_id= :pid ORDER BY time  DESC LIMIT 1" )
                     .setInteger("pid", Integer.parseInt(getCurrentUserId()));
             List<Object> result = query.list();

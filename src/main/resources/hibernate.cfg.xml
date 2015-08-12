@@ -1,18 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
+    <!-- Connection settings -->
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost/awesomedb</property>
+    <property name="hibernate.connection.username">skpskkgstcbrln</property>
+    <property name="hibernate.connection.password">LyHMS8RyjM9wU3xP_xC7PbeiQU</property>
+ 
+    <!-- SQL dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    
+    <!-- MySQL settings -->
+    <!--
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="connection.url">jdbc:mysql://localhost:3306/awesomedb</property>
     <property name="connection.username">root</property>
-    <property name="connection.password"/>
+    <property name="connection.password"/> -->
+
+
     <property name="connection.autoReconnect">true</property>
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
     <property name="current_session_context_class">thread</property>
     <property name="hibernate.show_sql">false</property>
-    <mapping class="com.atsamour.habitatweave.models.User"/>
+    <mapping class="com.atsamour.habitatweave.models.User_app"/>
     <mapping class="com.atsamour.habitatweave.models.UserRole"/>
     <mapping class="com.atsamour.habitatweave.models.RolesPermission"/>
     <mapping class="com.atsamour.habitatweave.models.Appliance"/>

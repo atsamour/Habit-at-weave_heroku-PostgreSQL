@@ -81,7 +81,7 @@ public class OptionsServlet extends HttpServlet {
                 java.util.Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
 
-                Query query = session.createSQLQuery("INSERT INTO options (`user_id`, `path`, `time`) VALUES (:user_id, :path, :time)")
+                Query query = session.createSQLQuery("INSERT INTO options (user_id, path, time) VALUES (:user_id, :path, :time)")
                         .setInteger("user_id", Integer.parseInt(user_id))
                         .setString("path", path)
                         .setTimestamp("time", timestamp);

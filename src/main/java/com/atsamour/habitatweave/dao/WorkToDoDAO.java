@@ -23,7 +23,7 @@ public class WorkToDoDAO {
         timeEnd.add(Calendar.SECOND, 59);
         @SuppressWarnings("unchecked")
         List<WorkToDo> worksToDo = session
-                .createQuery("from WorkToDo where done IS FALSE AND dateToDo >=? and dateToDo <?")
+                .createQuery("from WorkToDo where done = 0 AND dateToDo >=? and dateToDo <?")
                 //.createQuery("from WorkToDo")
                 .setParameter(0, time)
                 .setParameter(1, timeEnd)
@@ -37,7 +37,7 @@ public class WorkToDoDAO {
         timeEnd.add(Calendar.SECOND, 59);
         @SuppressWarnings("unchecked")
         List<WorkToDo> worksToDo = session
-                .createQuery("from WorkToDo where user_id=? AND done IS FALSE AND dateToDo >=? and dateToDo <?")
+                .createQuery("from WorkToDo where user_id=? AND done = 0 AND dateToDo >=? and dateToDo <?")
                 //.createQuery("from WorkToDo")
                 .setInteger(0, user_id)
                 .setParameter(1, time)
@@ -49,7 +49,7 @@ public class WorkToDoDAO {
     public List<WorkToDo> getAllPendingWorks(Calendar time) {
         @SuppressWarnings("unchecked")
         List<WorkToDo> worksToDo = session
-                .createQuery("from WorkToDo where done IS FALSE AND dateToDo >=?")
+                .createQuery("from WorkToDo where done = 0 AND dateToDo >=?")
                 //.createQuery("from WorkToDo")
                 .setParameter(0, time)
                 //.setParameter(1, timeEnd)
@@ -60,7 +60,7 @@ public class WorkToDoDAO {
     public List<WorkToDo> getWorksOld(Calendar time) {
         @SuppressWarnings("unchecked")
         List<WorkToDo> worksToDo = session
-                .createQuery("from WorkToDo where done IS FALSE AND dateToDo < ?")
+                .createQuery("from WorkToDo where dateToDo < ?")
                 //.createQuery("from WorkToDo")
                 .setParameter(0, time)
                 //.setParameter(1, timeEnd)

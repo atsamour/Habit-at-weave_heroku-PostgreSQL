@@ -57,6 +57,14 @@
         <url-pattern>/plugwise</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>com.atsamour.habitatweave.controller.TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>schedules</servlet-name>
         <servlet-class>com.atsamour.habitatweave.controller.SchedulesServlet</servlet-class>
     </servlet>

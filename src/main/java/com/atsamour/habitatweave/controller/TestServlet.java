@@ -27,14 +27,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.shiro.SecurityUtils;
 import org.hibernate.Session;
 
 /**
  *
  * @author AlariC
  */
-public class SchedulesServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -68,13 +67,13 @@ public class SchedulesServlet extends HttpServlet {
             
             ApplianceDAO applianceDAO = new ApplianceDAO(hiberSession);
             final List<Appliance> appliances;
-            appliances = applianceDAO.getAppliancesByUserId(Integer.parseInt(getCurrentUserId()));
+            appliances = applianceDAO.getAppliancesByUserId(5);
             
             
             request.setAttribute("appliances", appliances);
             request.setAttribute("workToDoList", workToDoList);
             request.setAttribute("workOldList", workOldList);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/secure/schedules.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/test.jsp");
             rd.forward(request, response);
 
         } finally {
@@ -146,14 +145,4 @@ public class SchedulesServlet extends HttpServlet {
         System.err.println("Work with Description:" + work.getDescription() + " saved.");
     }
     
-    public String getCurrentUserId() {
-	org.apache.shiro.subject.Subject currentUser = SecurityUtils.getSubject();
-
-	if (currentUser.isAuthenticated()) {
-            String id = (String) currentUser.getSession().getAttribute("id");
-		return id;
-	} else {
-		return null;
-	}
-    }
 }

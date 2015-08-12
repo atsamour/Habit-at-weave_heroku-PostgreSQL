@@ -1,8 +1,8 @@
 package com.atsamour.habitatweave.controller;
 
 import com.atsamour.habitatweave.auth.MySaltedAuthentificationInfo;
-import com.atsamour.habitatweave.dao.UserDAO;
-import com.atsamour.habitatweave.models.User;
+import com.atsamour.habitatweave.dao.User_appDAO;
+import com.atsamour.habitatweave.models.User_app;
 import com.atsamour.habitatweave.util.HibernateUtil;
 import java.io.IOException;
 
@@ -121,8 +121,8 @@ public class LoginServlet extends HttpServlet {
                 hiberSession.beginTransaction();
                 String id="";
                 try {
-                    UserDAO userDAO = new UserDAO(hiberSession);
-                    final User user = userDAO.getUserByEmail(username);
+                    User_appDAO userDAO = new User_appDAO(hiberSession);
+                    final User_app user = userDAO.getUserByEmail(username);
                     id = Integer.toString( user.getId() );
                 } finally {
                     hiberSession.getTransaction().commit();

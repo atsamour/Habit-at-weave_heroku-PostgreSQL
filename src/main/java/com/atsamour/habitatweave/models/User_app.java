@@ -9,8 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
-public class User implements Serializable {
+//@Table
+@Table(name="user_app")
+public class User_app implements Serializable {
 
     /**
      *
@@ -33,7 +34,7 @@ public class User implements Serializable {
     @Column
     private String salt;
 
-    public User() {
+    public User_app() {
     }
 
     public String getEmail() {

@@ -58,13 +58,13 @@ public class SleepServlet extends HttpServlet {
         
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query query = session.createSQLQuery("SELECT `start_time` FROM measurement WHERE type = 'SleepLatency' ORDER BY start_time ASC LIMIT 1");
+        Query query = session.createSQLQuery("SELECT start_time FROM measurement WHERE type = 'SleepLatency' ORDER BY start_time ASC LIMIT 1");
                 
         List<Object> result = query.list();
         Date date = new Date();
         date = (java.sql.Timestamp)( result.get(0) );
         request.getSession().setAttribute("minD", date);
-        query = session.createSQLQuery("SELECT `start_time` FROM measurement WHERE type = 'SleepLatency' ORDER BY start_time DESC LIMIT 1");
+        query = session.createSQLQuery("SELECT start_time FROM measurement WHERE type = 'SleepLatency' ORDER BY start_time DESC LIMIT 1");
         result = query.list();
         date = (java.sql.Timestamp)( result.get(0) );  
         request.getSession().setAttribute("maxD", date); 
@@ -178,7 +178,7 @@ public class SleepServlet extends HttpServlet {
 
     private List<Object[]> getSleepMeasurement(Session session, String person_id, Date date1, Date date2) {
         Query query = session.createSQLQuery(
-            "select `date`, `type`, `value` from measurement "
+            "select date, type, value from measurement "
                     + "WHERE measurement.person_id=:pid AND type IN ( 'SleepLatency', 'TotalTimeDeepSleep', 'TotalTimeInBedButAwake', 'TotalTimeShallowSleep') "
                     + "AND date BETWEEN :date1 AND :date2" )//.addScalar("type", StringType.INSTANCE)
         //.addEntity(Date.class)

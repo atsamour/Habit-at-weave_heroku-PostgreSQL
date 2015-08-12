@@ -59,7 +59,7 @@ public class CurrentCostServlet extends HttpServlet {
 //                    + " `date`, `time` FROM ccdata ORDER BY `sensorID`, date, HOUR(time)");
 //              did not yet implemented select by sensorID
                         
-            ps = con.prepareStatement("SELECT * FROM ccdata ORDER BY `sensorID`");
+            ps = con.prepareStatement("SELECT * FROM ccdata ORDER BY sensorID");
             rs = ps.executeQuery();
 
             // Extract data from result set

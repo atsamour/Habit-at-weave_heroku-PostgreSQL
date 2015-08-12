@@ -18,7 +18,7 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.hibernate.Session;
 
-import com.atsamour.habitatweave.models.User;
+import com.atsamour.habitatweave.models.User_app;
 import com.atsamour.habitatweave.models.UserRole;
 import com.atsamour.habitatweave.util.HibernateUtil;
 
@@ -94,7 +94,7 @@ public class RegisterServlet extends HttpServlet {
         }
     }
 
-    private void generatePassword(User user, String plainTextPassword) {
+    private void generatePassword(User_app user, String plainTextPassword) {
         RandomNumberGenerator rng = new SecureRandomNumberGenerator();
         Object salt = rng.nextBytes();
 
@@ -108,7 +108,7 @@ public class RegisterServlet extends HttpServlet {
     }
 
     private void registrate(Session session, String email, String plainTextPassword, boolean isAdmin) {
-        User user = new User();
+        User_app user = new User_app();
         user.setUsername(email);
         user.setEmail(email);
 

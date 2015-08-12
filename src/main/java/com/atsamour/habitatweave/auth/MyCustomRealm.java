@@ -8,8 +8,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.hibernate.Session;
 
-import com.atsamour.habitatweave.dao.UserDAO;
-import com.atsamour.habitatweave.models.User;
+import com.atsamour.habitatweave.dao.User_appDAO;
+import com.atsamour.habitatweave.models.User_app;
 import com.atsamour.habitatweave.util.HibernateUtil;
 
 public class MyCustomRealm extends JdbcRealm {
@@ -29,8 +29,8 @@ protected AuthenticationInfo doGetAuthenticationInfo(
     Session session = HibernateUtil.getSessionFactory().openSession();
     session.beginTransaction();
     try {
-        UserDAO userDAO = new UserDAO(session);
-        final User user = userDAO.getUserByEmail(username);
+        User_appDAO userDAO = new User_appDAO(session);
+        final User_app user = userDAO.getUserByEmail(username);
 
         if (user == null) {
             System.out.println("No account found for user [" + username + "]");

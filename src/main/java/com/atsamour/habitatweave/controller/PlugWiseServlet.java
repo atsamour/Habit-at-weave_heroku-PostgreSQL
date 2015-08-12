@@ -54,7 +54,7 @@ public class PlugWiseServlet extends HttpServlet {
             //sensor = _sensorIDs.get(0); }
         try {
             Connection con = connectionProvider.getConnection();
-            ps = con.prepareStatement("SELECT DISTINCT `sensorID` FROM pwdata");
+            ps = con.prepareStatement("SELECT DISTINCT sensorID FROM pwdata");
             rs = ps.executeQuery();
             while(rs.next()){
                 //Retrieve by column name
@@ -91,8 +91,8 @@ public class PlugWiseServlet extends HttpServlet {
             
             Connection con2 = connectionProvider.getConnection();       
             
-            ps2 = con2.prepareStatement("SELECT `sensorID`, SUM(pwdata.value) AS value,"
-                    + " `date`, `time` FROM pwdata WHERE pwdata.sensorID = ? GROUP BY date, HOUR(time)");
+            ps2 = con2.prepareStatement("SELECT sensorID, SUM(pwdata.value) AS value,"
+                    + " date, time FROM pwdata WHERE pwdata.sensorID = ? GROUP BY date, HOUR(time)");
             ps2.setString(1,sensor);
             rs2 = ps2.executeQuery();
 

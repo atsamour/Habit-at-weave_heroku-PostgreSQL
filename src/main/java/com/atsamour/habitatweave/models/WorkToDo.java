@@ -36,13 +36,13 @@ public class WorkToDo implements Serializable {
     private Calendar dateToDo;
     
     @Column
-    private Boolean done;
+    private Integer done;
 
-    public Boolean getDone() {
+    public Integer getDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(Integer done) {
         this.done = done;
     }
 

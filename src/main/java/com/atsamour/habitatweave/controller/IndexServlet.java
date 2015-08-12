@@ -283,7 +283,7 @@ public class IndexServlet extends HttpServlet {
     
     private List<Object[]> getSleepMeasurement(Session session, String person_id, Date date1, Date date2) {
         Query query = session.createSQLQuery(
-            "select `date`, `type`, `value` from measurement "
+            "select date, type, value from measurement "
                     + "WHERE measurement.person_id=:pid AND type IN ( 'SleepLatency', 'TotalTimeDeepSleep', 'TotalTimeInBedButAwake', 'TotalTimeShallowSleep') "
                     + "AND date BETWEEN :date1 AND :date2" )//.addScalar("type", StringType.INSTANCE)
         //.addEntity(Date.class)
@@ -316,8 +316,8 @@ public class IndexServlet extends HttpServlet {
     
     private List<Object[]> getActivityMeasurement(Session session, String person_id, Date date1, Date date2) {
         Query query = session.createSQLQuery(
-             "SELECT `date`, SUM(measurement.value) AS value, HOUR(measurement.start_time) as start_time, "
-                     + "`type` FROM measurement WHERE measurement.person_id=:pid "
+             "SELECT date, SUM(measurement.value) AS value, HOUR(measurement.start_time) as start_time, "
+                     + "type FROM measurement WHERE measurement.person_id=:pid "
                      + "AND type IN ( 'MovingIntensity' ) AND date BETWEEN :date1 AND :date2 "
                      + "GROUP BY date, HOUR(start_time)")
 //            "select `date`, `type`, SUM(measurement.value) AS value from measurement "

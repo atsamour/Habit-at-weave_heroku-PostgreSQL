@@ -56,13 +56,13 @@ public class ActivityServlet extends HttpServlet {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         //Retrives the min and max date with available data form the measurement table
-        Query query = session.createSQLQuery("SELECT `start_time` FROM measurement WHERE type = 'Calories' ORDER BY start_time ASC LIMIT 1");
+        Query query = session.createSQLQuery("SELECT start_time FROM measurement WHERE type = 'Calories' ORDER BY start_time ASC LIMIT 1");
         List<Object> result = query.list();
         Date date = new Date();
         date = (java.sql.Timestamp)( result.get(0) );
         //Attributes used at datetimepicker JavaScript
         request.getSession().setAttribute("minD", date);
-        query = session.createSQLQuery("SELECT `start_time` FROM measurement WHERE type = 'Calories' ORDER BY start_time DESC LIMIT 1");
+        query = session.createSQLQuery("SELECT start_time FROM measurement WHERE type = 'Calories' ORDER BY start_time DESC LIMIT 1");
         result = query.list();
         date = (java.sql.Timestamp)( result.get(0) );  
         request.getSession().setAttribute("maxD", date);               
@@ -208,8 +208,8 @@ public class ActivityServlet extends HttpServlet {
     public List<Object[]> getActivityMeasurement(Session session, 
             String person_id, Date date1, Date date2) {
         Query query = session.createSQLQuery(
-             "SELECT `date`, SUM(measurement.value) AS value, HOUR(measurement.start_time)"
-                     + " as start_time, `type` FROM measurement WHERE "
+             "SELECT date, SUM(measurement.value) AS value, HOUR(measurement.start_time)"
+                     + " as start_time, type FROM measurement WHERE "
                      + "measurement.person_id=:pid AND type IN ( 'Calories', 'MovingIntensity' )"
                      + " AND date BETWEEN :date1 AND :date2 GROUP BY date, HOUR(start_time), type")
         .setString("pid", person_id)

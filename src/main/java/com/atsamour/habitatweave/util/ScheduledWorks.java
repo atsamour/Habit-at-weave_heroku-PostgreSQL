@@ -59,7 +59,7 @@ public class ScheduledWorks implements Runnable {
         session.beginTransaction();  
         try {
             //retrives the user's last inserted aWESoME path
-            Query query = session.createSQLQuery("select `path` from options "
+            Query query = session.createSQLQuery("select path from options "
                     + "WHERE options.user_id= :pid ORDER BY time  DESC LIMIT 1" )
                     .setInteger("pid", Integer.parseInt(getCurrentUserId()));
             List<Object> result = query.list();            
