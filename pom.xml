@@ -37,9 +37,9 @@
   </build>
   <repositories>
     <repository>
-        <id>habitatweave.local</id>
-        <name>habitatweave</name>
-        <url>file:${habitatweave.basedir}/repo</url>
+        <id>repo</id>
+        <name>project</name>
+        <url>file://${project.basedir}/repo</url>
     </repository>
   </repositories>
 
