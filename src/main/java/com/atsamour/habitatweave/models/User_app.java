@@ -19,7 +19,7 @@ public class User_app implements Serializable {
     private static final long serialVersionUID = -4746333924452133573L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

@@ -3,7 +3,7 @@
 <%@ taglib prefix="json" uri="http://www.atg.com/taglibs/json" %>
 
 <!DOCTYPE html>
-<html data-ng-app lang="en">
+<html lang="en">
 
 <head>
 
@@ -13,21 +13,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Habitatweave: Schedule works</title>
+    <title>Habitatweave: Configure Appliances to Rooms</title>
 
 
-<script src="resources/js/jquery.js" ></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"/></script>
-
-<script type="text/javascript" src="https://code.angularjs.org/1.4.3/angular.js"/></script>
-
+    <script src="resources/js/jquery.js" ></script>
+    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"/></script>
 
 <script src="resources/bootstrap/js/bootstrap.min.js"></script> 
-
-<script type="text/javascript" src="resources/js/moment.js"></script>
-<script type="text/javascript" src="resources/bootstrap/js/transition.js"></script>
-<script type="text/javascript" src="resources/bootstrap/js/collapse.js"></script>
-<script type="text/javascript" src="resources/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 
 <!-- Bootstrap -->
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -39,11 +33,7 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <!-- Custom rooms CSS -->
 <link href="resources/css/rooms.css" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.css" />
-
-<!--<link rel="stylesheet" href="resources/bootstrap/css/bootstrap-datetimepicker.min.css" />
- vvvvv this one not working..
+<!-- vvvvv this one not working..
 <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">-->
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -53,88 +43,61 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<style TYPE="text/css" media="all">
-    
-    .ui-autocomplete {
-    position: absolute;
-    z-index: 1000;
-    //cursor: default;
-    
-    cursor:pointer; 
-    height:120px; 
-    overflow-y:scroll;
-//height: 200px; 
-    //overflow-y: scroll; 
-    //overflow-x: hidden;
+<script type="text/javascript">
 
-    padding: 0;
-    margin-top: 2px;
-    list-style: none;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
-    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    }
-    .ui-autocomplete > li {
-      padding: 3px 20px;
-    }
-    .ui-autocomplete > li.ui-state-focus {
-      background-color: #DDD;
-    }
-    .ui-helper-hidden-accessible {
-      display: none;
-    }
+    $(document).ready(function () {
 
-</style>
+        //Sortable and connectable lists (within containment)
+        $('#plugSortable .sortable-list').sortable({
+            connectWith: '#plugSortable .sortable-list',
+            containment: '#containment'
+        });
+
+    });
+    
+
+</script>
 
 <script type="text/javascript">
-$(document).ready(function() {
-    $(function() {
-        $("input#appl").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "${requestScope["javax.servlet.forward.context_path"]}/AutoCompleteResponce",
-                    type: "GET",
-                    data: { term: request.term },
 
-                    dataType: "json",
+    $(document).ready(function () {
 
-                    success: function(data) {
-                        console.log( data);
-                        response(data);
-                    }
-               });              
-            },
-            focus: function( event, ui ) {
-              $( "#appl" ).val( ui.item.label );
-              return false;
-            },
-            select: function( event, ui ) {
-              $( "#appl" ).val( ui.item.label );
-              $( "#appl-id" ).val( ui.item.value );
-              $( "#appl-description" ).html( ui.item.desc );
-             
-              return false;
-            },
-            minLength: 0,
-            scroll: true
-        })
-        
-        .focus(function() {
-            $(this).autocomplete("search", "");
-        })
-        
-        .autocomplete( "instance" )._renderItem = function( ul, item ) {
-            return $( "<li>" )
-                .append( "<a>" + item.label + "<br>" + item.desc + "</a>" )
-                .appendTo( ul );
-        };
+        // Get items
+        function getItems(divID)
+        {
+            var finalObj = {};
+            
+            $(divID + ' ul.sortable-list').each(function () {
+                var roomArray = [];
+                roomArray = $(this).sortable('toArray');
+                finalObj [ $(this).attr('id') ] = roomArray;
+            });
+            for (var i = 0; i < finalObj.length; i++) {
+                console.log(JSON.stringify(finalObj[i]));
+            }       
+            return finalObj;
+        }
+
+        // Get items
+        $('#plugSortable .sortable-list').sortable({
+            connectWith: '#plugSortable .sortable-list'
+        });
+
+        $('#btn-get').click(function () {
+           // alert(getItems('#plugSortable'));
+                            
+            // Ajax POST request, similar to the GET request.
+            $.post('arrangerooms',getItems('#plugSortable'), //url, data e.g { name: "John", time: "2pm" }
+                function() { // on success
+                    alert("Arrangement saved successfully!");
+                })
+                .fail(function() { //on failure
+                    alert("Arrangement failed.");
+                });
+        });
+
     });
-});
+
 </script>
 
 </head>
@@ -198,13 +161,13 @@ $(document).ready(function() {
                                     <a href="homecreate"><i class="fa fa-fw fa-plus-circle"></i> Add Appliance/Room</a>
                             </li>
                             <li>
-                                    <a href="arrangerooms"><i class="fa fa-fw fa-building-o"></i> Arrange in Rooms</a>
+                                    <a href="arrangerooms" class="active"><i class="fa fa-fw fa-building-o"></i> Arrange in Rooms</a>
                             </li>
                             <li>
                                     <a href="switchplugs"><i class="fa fa-fw fa-power-off"></i> Switch plugs</a>
                             </li>
                             <li>
-                                    <a href="schedules" class="active"><i class="fa fa-fw fa-calendar"></i> Schedule Appliances</a>
+                                    <a href="schedules"><i class="fa fa-fw fa-calendar"></i> Schedule Appliances</a>
                             </li>
                         </ul>
                     </li>
@@ -221,6 +184,7 @@ $(document).ready(function() {
                     </li>
                     <li>
                         <a href="options"><i class="fa fa-fw fa-edit"></i> Options</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -241,126 +205,44 @@ $(document).ready(function() {
                                 <i class="fa fa-home"></i>  <a href="homeappliances.jsp">Home appliances</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-building-o"></i> Schedule Appliances
+                                <i class="fa fa-building-o"></i> Arrange in Room
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-                <h2 style="color:red">    
-                    <c:out value="${message}"></c:out>
-                </h2>
 
                 <div class="row">
-                        
-                </div>
-                <!-- /.row -->
-                
-                <div class="row">                    
-                    <div class="col-lg-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-calendar"></i> New schedule</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form role="form" method="post" action="schedules">
-                                    <div class="form-group">
-                                        <label>Schedule description</label>
-                                        <input class="form-control" name="description" placeholder="e.g Hall lights on">
-                                        <br/><input type="text" data-ng-model="name"/> {{name}}
-                                    </div>
-                                   <!-- <div class="form-group">
-                                        <label>Select appliance</label>
-                <c:forEach var="currentAppliance" items="${appliances}">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="appliance" id="optionsRadios${currentAppliance.id}" value="${currentAppliance.id}">
-                                                ${currentAppliance.description}, ${currentAppliance.vendorname}
-                                            </label>
-                                        </div>
-                </c:forEach>               
-                                    </div>
-                                    -->
-                                    <div class="form-group">
-                                        <label>Select appliance</label>
-                                        <input class="form-control" id="appl" placeholder="Enter Appliance description" />
-                                        <input type="hidden" name="appliance" id="appl-id">
-                                    </div>    
-                                    
-                                    <div class="form-group">
-                                        <label>Action</label>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="action" id="optionsRadios1" value="ON"> <i class="fa fa-toggle-on"></i> ON
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="action" id="optionsRadios2" value="OFF"> <i class="fa fa-toggle-off"></i> OFF
-                                            </label>
-                                        </div>
-                                    </div>  
-                                    
-                                    <div class="form-group">
-                                        <label>Select date+time</label>
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" name="date" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                <script type="text/javascript">
-                                    $(function () {
-                                        var mind = new Date(Date.now());  
-                                        $('#datetimepicker1').datetimepicker({
-                                            format: 'YYYY/MM/DD HH:mm',                       
-                                            minDate: mind 
-                                            //weekStart: '1'
-                                            //pickSeconds: false
-                                            //pick12HourFormat: false
-                                            //startDate: "today"
-                                        });
-                                    });
-                                </script>
 
-                                    
-                                    <div class="text-center">
-                                        <p><button type="submit" class="btn btn-default">Submit</button></p>
-                                    </div>
-                                </form>
+                    <!-- BEGIN: XHTML for plugSortable -->
+                    <div id="plugSortable">
+                        <p>
+                            <input type="submit" class="input-button" id="btn-get" value="Save rooms"/>
+                        </p>
+                        <div id="containment">
+                            <div class="column left first" style="width: ${width}%">
+                                <ul class="sortable-list ui-sortable" id="0" style="background-color:#8ab85c">
+                                    Appliances with no room assigned<br><br>
+    <c:forEach var="currentAppliance" items="${appliances}"> <c:if test="${currentAppliance.room_id == 0}">
+                                    <li class="sortable-item" id="${currentAppliance.id}">${currentAppliance.description}, ID: ${currentAppliance.id}</li>
+         </c:if> </c:forEach>
+                                </ul>
                             </div>
+                            <c:forEach var="currentRoom" items="${rooms}">
+                            <div class="column left" style="width: ${width}%">
+                                <ul class="sortable-list ui-sortable" id="${currentRoom.id}">
+                                    <c:out value="${currentRoom.name}, ID: ${currentRoom.id}"></c:out><br><br>
+<c:forEach var="currentAppliance" items="${appliances}"> <c:if test="${currentAppliance.room_id == currentRoom.id}">
+                                    <li class="sortable-item" id="${currentAppliance.id}">${currentAppliance.description}, ID: ${currentAppliance.id}</li>
+          </c:if></c:forEach>
+                                </ul>
+                            </div>
+                            </c:forEach>
+                            <div class="clearer"> </div>
                         </div>
-                    </div>          
-                    <div class="col-lg-6">
-                    
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Pending Works</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                        <c:forEach var="current" items="${workToDoList}">
-                                            Work description: <c:out value="${current.description}"></c:out><br>
-                                        </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Old Works</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                        <c:forEach var="current" items="${workOldList}">
-                                            Work description: <c:out value="${current.description}"></c:out><br>
-                                        </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    
                     </div>
+                    <!-- END: XHTML for plugSortable -->
+
                 </div>
                 <!-- /.row -->
                 

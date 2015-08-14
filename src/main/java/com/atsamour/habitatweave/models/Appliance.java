@@ -20,7 +20,7 @@ public class Appliance implements Serializable {
     private static final long serialVersionUID = 7243L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
