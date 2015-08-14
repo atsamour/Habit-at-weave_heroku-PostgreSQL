@@ -66,11 +66,12 @@ public class TestServlet extends HttpServlet {
         hiberSession.beginTransaction();
         try {
             ApplianceDAO applianceDAO = new ApplianceDAO(hiberSession);
-            final List<Appliance> appliances;
+            List<Appliance> appliances;
             appliances = applianceDAO.getAppliancesByUserId( 5 );
 
             RoomDAO roomDAO = new RoomDAO(hiberSession);
-            final List<Room> rooms = roomDAO.getRoomsByUserId( 5 );
+            final List<Room> rooms;
+            rooms = roomDAO.getRoomsByUserId( 5 );
             
             int width = (100-rooms.size()*2) / (rooms.size()+1); // *2% margin size
             HttpSession session = request.getSession();
